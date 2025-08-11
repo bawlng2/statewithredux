@@ -400,6 +400,7 @@ function TodosCard() {
  * Table component to display completed todos
  */
 function CompletedTable() {
+  const dispatch = useDispatch();
   const items = useSelector((s) => s.todos.items);
   const completed = items.filter((item) => item.done);
 
@@ -417,6 +418,7 @@ function CompletedTable() {
             <DataTable.Title style={{ flex: 0.7 }}>#</DataTable.Title>
             <DataTable.Title style={{ flex: 2 }}>Title</DataTable.Title>
             <DataTable.Title style={{ flex: 2 }}>Completed At</DataTable.Title>
+            <DataTable.Title style={{ flex: 1 }}>Undo</DataTable.Title>
           </DataTable.Header>
           {completed.map((item, idx) => (
             <DataTable.Row key={item.id}>
@@ -424,6 +426,16 @@ function CompletedTable() {
               <DataTable.Cell style={{ flex: 2 }}>{item.title}</DataTable.Cell>
               <DataTable.Cell style={{ flex: 2 }}>
                 {new Date(item.createdAt).toLocaleTimeString()}
+              </DataTable.Cell>
+              <DataTable.Cell style={{ flex: 1 }}>
+                <Button
+                  compact
+                  mode="outlined"
+                  onPress={() => dispatch(toggleTodo(item.id))}
+                  style={{ minWidth: 60 }}
+                >
+                  Undo
+                </Button>
               </DataTable.Cell>
             </DataTable.Row>
           ))}
